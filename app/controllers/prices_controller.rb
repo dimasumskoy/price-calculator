@@ -5,9 +5,12 @@ class PricesController < ApplicationController
   def calculate
     if price_params.present?
       @price = Price.calculate(price_params)
-      render :new
+
+      respond_to do |format|
+        format.js { render template: 'prices/calculate' }
+      end
     else
-      redirect_to '/prices/calculate'
+      render :new
     end
   end
 

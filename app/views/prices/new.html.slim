@@ -1,7 +1,7 @@
 h3 Calculate price
 
 div#price-calculation
-  = form_tag({ controller: 'prices', action: 'calculate' }, method: 'get')
+  = form_tag({ controller: 'prices', action: 'calculate' }, method: 'get', remote: true)
     p
       = label_tag :depart_city, 'Город отправления'
       = collection_select :cities, :depart_city, City.all, :id, :name, {}
@@ -23,5 +23,7 @@ div#price-calculation
 
     = submit_tag 'Рассчитать'
 
-- if @price
-  p= @price
+div.calculated-price
+
+/ - if @price
+/   p= "$#{@price}"
