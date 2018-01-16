@@ -16,7 +16,12 @@ RSpec.describe PricesController, type: :controller do
   end
 
   describe 'GET #calculate' do
-    before { get :calculate, params: { cities: { depart_city: city1, delivery_city: city2 }, weight: 10, length: 10, width: 50, height: 100 } }
+    before do
+      get :calculate, params: {
+        cities: { depart_city: city1, delivery_city: city2 },
+        weight: 10, length: 10, width: 50, height: 100
+      }
+    end
 
     it 'assigns requested price to @price' do
       expect(assigns(:price)).to eq 30
