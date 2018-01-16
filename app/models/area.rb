@@ -1,5 +1,7 @@
 class Area < ApplicationRecord
-  has_many :cities
+  self.primary_key = :area
+
+  has_many :cities, dependent: :destroy
 
   validates :area, :price, presence: true
 end
