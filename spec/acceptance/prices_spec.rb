@@ -1,16 +1,18 @@
 require 'rails_helper'
 
 feature 'price calculation' do
-  given(:area1) { Area.make(area: 1, price: 2) }
-  given(:area2) { Area.make(area: 2, price: 3) }
-  given(:depart_city)  { City.make(name: 'Москва', area_id: area1) }
-  given(:arrival_city) { City.make(name: 'Санкт-Петербург', area_id: area2) }
+  given!(:area1) { create(:area, price: 1, area: 1) }
+  given!(:area2) { create(:area, price: 2, area: 2) }
 
-  scenario 'user can calculate the price' do
+  given!(:city1)   { create(:city, name: 'Москва', area: area1) }
+  given!(:city2)   { create(:city, name: 'Санкт-Петербург', area: area2) }
+
+  scenario 'user can calculate the price', js: true do
     visit '/prices/calculate'
 
-    select('Москва', from: :depart_city)
-    select('Санкт-Петербург', from: :delivery_city)
+    expect(page).to have_content 'Город отправления'
+    expect(page).to have_content 'Город доставки'
+
     fill_in 'Вес', with: 10
 
     within('.dimensions') do
@@ -20,6 +22,6 @@ feature 'price calculation' do
     end
 
     click_on 'Рассчитать'
-    expect(page).to have_content '30'
+    expect(page).to have_content '10'
   end
 end
